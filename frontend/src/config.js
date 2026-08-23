@@ -1,6 +1,5 @@
 // Central API configuration
-// In development: http://localhost:5000/api
-// In production:  uses VITE_API_URL environment variable
-const API = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
+// In development & production: uses VITE_API_URL or defaults to your live Railway backend URL
+const API = import.meta.env.VITE_API_URL || 'https://helphub-production-3b59.up.railway.app/api'
 
 export default API
