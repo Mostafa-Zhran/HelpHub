@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 require("dotenv").config();
 
 const adminRoutes     = require("./routes/admin");
@@ -12,16 +13,32 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Routes
+// API Routes
 app.use("/api/admin",     adminRoutes);
 app.use("/api/public",    publicRoutes);
 app.use("/api/volunteer", volunteerRoutes);
 
 // Health check endpoint
-app.get("/", (req, res) => {
+app.get("/api/health", (req, res) => {
     res.json({
         success: true,
         message: "HelpHub Node.js + Supabase Backend is running!"
+    });
+});
+
+// Serve frontend static files if built
+const frontendDist = path.join(__dirname, "../frontend/dist");
+app.use(express.static(frontendDist));
+
+// SPA Fallback: Send index.html for all remaining GET requests
+app.get("*", (req, res) => {
+    res.sendFile(path.join(frontendDist, "index.html"), (err) => {
+        if (err) {
+            res.json({
+                success: true,
+                message: "HelpHub Node.js + Supabase Backend is running!"
+            });
+        }
     });
 });
 
