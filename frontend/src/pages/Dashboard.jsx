@@ -6,7 +6,7 @@ import {
   RefreshCw, ChevronRight, Search, Shield, UserPlus, Trash2, KeyRound
 } from 'lucide-react'
 
-const API = 'https://helphub-production-3b59.up.railway.app/api/'
+import API from '../config'
 
 function useAdminAuth() {
   const navigate = useNavigate()

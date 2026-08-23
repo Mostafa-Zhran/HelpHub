@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Clock, Heart, BookOpen, Timer, TrendingUp, Users, HeartHandshake, Mail, RefreshCw } from 'lucide-react'
 
-const API = 'https://helphub-production-3b59.up.railway.app/api/api'
+import API from '../config'
 
 function StatCard({ icon: Icon, value, label, loading, color = 'blue' }) {
   const colorMap = {

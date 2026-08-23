@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Shield, CheckCircle2 } from 'lucide-react'
 
-const API = 'https://helphub-production-3b59.up.railway.app/api/'
+import API from '../config'
 
 const INIT = {
   full_name: '',
