@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Lock, Shield, Users, AlertCircle, Eye, EyeOff } from 'lucide-react'
 
-const API = 'https://helphub-production-3b59.up.railway.app/'
+const API = 'https://helphub-production-3b59.up.railway.app/api/'
 
 export default function Login() {
   const [tab, setTab] = useState('admin')   // 'admin' | 'volunteer'

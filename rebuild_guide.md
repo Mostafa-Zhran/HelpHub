@@ -1179,7 +1179,7 @@ export default function Statistics() {
   const [stats, setStats] = useState({ volunteers: 0, helpRequests: 0, completedRequests: 0, messages: 0 });
 
   useEffect(() => {
-    fetch('https://helphub-production-3b59.up.railway.app//public/stats')
+    fetch('https://helphub-production-3b59.up.railway.app/api//public/stats')
       .then(res => res.json())
       .then(res => {
         if (res.success) setStats(res.data);
@@ -1274,7 +1274,7 @@ export default function Contact() {
     setIsLoading(true);
     setStatusMsg('Sending message...');
     try {
-      const res = await fetch('https://helphub-production-3b59.up.railway.app//public/contact', {
+      const res = await fetch('https://helphub-production-3b59.up.railway.app/api//public/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -1366,7 +1366,7 @@ export default function BecomeVolunteer() {
     setIsLoading(true);
     setStatusMsg('Submitting application...');
     try {
-      const res = await fetch('https://helphub-production-3b59.up.railway.app//public/volunteers', {
+      const res = await fetch('https://helphub-production-3b59.up.railway.app/api//public/volunteers', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -1461,7 +1461,7 @@ export default function RequestHelp() {
     setIsLoading(true);
     setStatusMsg('Submitting request...');
     try {
-      const res = await fetch('https://helphub-production-3b59.up.railway.app//help-requests', {
+      const res = await fetch('https://helphub-production-3b59.up.railway.app/api//help-requests', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -1554,7 +1554,7 @@ export default function Login() {
     setIsLoading(true);
     setMessage('Signing in...');
     try {
-      const res = await fetch('https://helphub-production-3b59.up.railway.app//admin/login', {
+      const res = await fetch('https://helphub-production-3b59.up.railway.app/api//admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
@@ -1632,7 +1632,7 @@ export default function Dashboard() {
 
   const fetchApi = useCallback(async (path, options = {}) => {
     try {
-      const res = await fetch(`https://helphub-production-3b59.up.railway.app/${path}`, {
+      const res = await fetch(`https://helphub-production-3b59.up.railway.app/api/${path}`, {
         ...options,
         headers: {
           'Authorization': `Bearer ${token}`,

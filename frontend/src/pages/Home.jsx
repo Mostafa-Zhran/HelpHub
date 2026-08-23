@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Heart, Users, Clock, BookOpen, Zap, Droplet, Pill, Book, Accessibility, Car, Utensils, GraduationCap, Laptop, Shirt, RefreshCw } from 'lucide-react'
 
-const API = 'https://helphub-production-3b59.up.railway.app/'
+const API = 'https://helphub-production-3b59.up.railway.app/api/'
 
 const SERVICES = [
   { icon: Droplet, title: 'Blood Donation', desc: 'Connect blood donors with people who need urgent support.', link: '/services#blood' },

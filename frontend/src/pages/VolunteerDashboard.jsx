@@ -5,7 +5,7 @@ import {
   ChevronRight, Search, User, Clock, AlertTriangle, Star
 } from 'lucide-react'
 
-const API = 'https://helphub-production-3b59.up.railway.app/'
+const API = 'https://helphub-production-3b59.up.railway.app/api/'
 
 function useVolunteerAuth() {
   const navigate = useNavigate()
@@ -125,8 +125,8 @@ export default function VolunteerDashboard() {
               key={key}
               onClick={() => { setTab(key); setSearch('') }}
               className={`w-full flex items-center justify-between gap-3 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${tab === key
-                  ? 'bg-blue-600 text-white shadow-sm'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
+                ? 'bg-blue-600 text-white shadow-sm'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
                 }`}
             >
               <span className="flex items-center gap-2"><Icon size={15} />{label}</span>
@@ -150,8 +150,8 @@ export default function VolunteerDashboard() {
               </div>
             </div>
             <span className={`inline-block text-[10px] font-extrabold px-2 py-0.5 rounded-md ${vol?.status === 'approved'
-                ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300'
-                : 'bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300'
+              ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300'
+              : 'bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300'
               }`}>
               {vol?.status ?? 'pending'}
             </span>

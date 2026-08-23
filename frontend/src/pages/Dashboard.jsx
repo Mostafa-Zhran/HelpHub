@@ -6,7 +6,7 @@ import {
   RefreshCw, ChevronRight, Search, Shield, UserPlus, Trash2, KeyRound
 } from 'lucide-react'
 
-const API = 'https://helphub-production-3b59.up.railway.app/'
+const API = 'https://helphub-production-3b59.up.railway.app/api/'
 
 function useAdminAuth() {
   const navigate = useNavigate()
@@ -20,12 +20,12 @@ function useAdminAuth() {
 function StatusBadge({ value }) {
   return (
     <span className={`inline-flex px-2.5 py-0.5 rounded-md text-xs font-bold capitalize ${value === 'approved' ? 'status-approved' :
-        value === 'rejected' ? 'status-rejected' :
-          value === 'completed' ? 'status-completed' :
-            value === 'urgent' || value === 'critical' ? 'status-unread' :
-              value === 'unread' ? 'status-unread' :
-                value === 'read' ? 'status-completed' :
-                  'status-pending'
+      value === 'rejected' ? 'status-rejected' :
+        value === 'completed' ? 'status-completed' :
+          value === 'urgent' || value === 'critical' ? 'status-unread' :
+            value === 'unread' ? 'status-unread' :
+              value === 'read' ? 'status-completed' :
+                'status-pending'
       }`}>
       {value}
     </span>
@@ -480,8 +480,8 @@ export default function Dashboard() {
               key={key}
               onClick={() => { setTab(key); setSearch('') }}
               className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${tab === key
-                  ? 'bg-blue-600 text-white shadow-sm'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
+                ? 'bg-blue-600 text-white shadow-sm'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
                 }`}
             >
               <Icon size={16} />
