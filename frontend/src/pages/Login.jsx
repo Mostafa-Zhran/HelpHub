@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Lock, Shield, Users, AlertCircle, Eye, EyeOff } from 'lucide-react'
 
-const API = 'http://localhost:5000/api'
+const API = 'https://helphub-production-3b59.up.railway.app/'
 
 export default function Login() {
   const [tab, setTab] = useState('admin')   // 'admin' | 'volunteer'
@@ -75,8 +75,8 @@ export default function Login() {
           <button
             onClick={() => { setTab('admin'); setError('') }}
             className={`flex-1 flex items-center justify-center gap-2 py-3 text-xs font-bold uppercase tracking-wider transition-all ${tab === 'admin'
-                ? 'bg-blue-700 text-white'
-                : 'bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+              ? 'bg-blue-700 text-white'
+              : 'bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
           >
             <Shield size={14} /> Admin
@@ -84,8 +84,8 @@ export default function Login() {
           <button
             onClick={() => { setTab('volunteer'); setError('') }}
             className={`flex-1 flex items-center justify-center gap-2 py-3 text-xs font-bold uppercase tracking-wider transition-all border-l border-slate-200 dark:border-slate-800 ${tab === 'volunteer'
-                ? 'bg-blue-700 text-white'
-                : 'bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+              ? 'bg-blue-700 text-white'
+              : 'bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
           >
             <Users size={14} /> Volunteer

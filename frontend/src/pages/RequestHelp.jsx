@@ -1,18 +1,18 @@
 import { useState } from 'react'
 import { Shield, CheckCircle2 } from 'lucide-react'
 
-const API = 'http://localhost:5000/api'
+const API = 'https://helphub-production-3b59.up.railway.app/'
 
 const INIT = {
-  full_name:    '',
-  email:        '',
+  full_name: '',
+  email: '',
   service_type: '',
-  description:  '',
-  urgency:      '',
+  description: '',
+  urgency: '',
 }
 
 export default function RequestHelp() {
-  const [form, setForm]     = useState(INIT)
+  const [form, setForm] = useState(INIT)
   const [status, setStatus] = useState('')
   const [errMsg, setErrMsg] = useState('')
 

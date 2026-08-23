@@ -2,37 +2,37 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Heart, Users, Clock, BookOpen, Zap, Droplet, Pill, Book, Accessibility, Car, Utensils, GraduationCap, Laptop, Shirt, RefreshCw } from 'lucide-react'
 
-const API = 'http://localhost:5000/api'
+const API = 'https://helphub-production-3b59.up.railway.app/'
 
 const SERVICES = [
-  { icon: Droplet,       title: 'Blood Donation',            desc: 'Connect blood donors with people who need urgent support.',                            link: '/services#blood' },
-  { icon: Pill,          title: 'Medicine Delivery',         desc: 'Help deliver essential medicines to people who need them.',                           link: '/services#medicine' },
-  { icon: Book,          title: 'Books Sharing',             desc: 'Share educational books and resources with other students.',                           link: '/services#books' },
-  { icon: Accessibility, title: 'Disability Support',        desc: 'Support people with disabilities in their daily activities.',                        link: '/services#disability' },
-  { icon: Car,           title: 'Transportation Support',    desc: 'Help people reach hospitals, universities, and important appointments.',              link: '/services#transportation' },
-  { icon: Utensils,      title: 'Food Support',              desc: 'Provide food and essential meals to people and families who need support.',           link: '/services#food' },
-  { icon: GraduationCap, title: 'Tutoring & Study Support',  desc: 'Connect students with volunteers who can provide academic support.',                  link: '/services#tutoring' },
-  { icon: Laptop,        title: 'Technology Support',        desc: 'Help students and community members solve common technology problems.',               link: '/services#technology' },
-  { icon: Shirt,         title: 'Clothes Donation',          desc: 'Donate useful clothes and help provide them to people who need them.',                link: '/services#clothing' },
+  { icon: Droplet, title: 'Blood Donation', desc: 'Connect blood donors with people who need urgent support.', link: '/services#blood' },
+  { icon: Pill, title: 'Medicine Delivery', desc: 'Help deliver essential medicines to people who need them.', link: '/services#medicine' },
+  { icon: Book, title: 'Books Sharing', desc: 'Share educational books and resources with other students.', link: '/services#books' },
+  { icon: Accessibility, title: 'Disability Support', desc: 'Support people with disabilities in their daily activities.', link: '/services#disability' },
+  { icon: Car, title: 'Transportation Support', desc: 'Help people reach hospitals, universities, and important appointments.', link: '/services#transportation' },
+  { icon: Utensils, title: 'Food Support', desc: 'Provide food and essential meals to people and families who need support.', link: '/services#food' },
+  { icon: GraduationCap, title: 'Tutoring & Study Support', desc: 'Connect students with volunteers who can provide academic support.', link: '/services#tutoring' },
+  { icon: Laptop, title: 'Technology Support', desc: 'Help students and community members solve common technology problems.', link: '/services#technology' },
+  { icon: Shirt, title: 'Clothes Donation', desc: 'Donate useful clothes and help provide them to people who need them.', link: '/services#clothing' },
 ]
 
 export default function Home() {
-  const [stats, setStats]     = useState(null)
+  const [stats, setStats] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     fetch(`${API}/public/stats`)
       .then(r => r.json())
       .then(r => { if (r.success) setStats(r.data) })
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setLoading(false))
   }, [])
 
   const S = stats || {}
-  const volunteerHours = S.volunteerHours    ?? 0
-  const peopleHelped   = S.peopleHelped       ?? 0
-  const booksReused    = S.booksReused        ?? 0
-  const avgResponse    = S.avgResponseMinutes != null ? `${S.avgResponseMinutes} min` : '—'
+  const volunteerHours = S.volunteerHours ?? 0
+  const peopleHelped = S.peopleHelped ?? 0
+  const booksReused = S.booksReused ?? 0
+  const avgResponse = S.avgResponseMinutes != null ? `${S.avgResponseMinutes} min` : '—'
 
   return (
     <div className="animate-fade-in space-y-16 pb-20">
@@ -40,7 +40,7 @@ export default function Home() {
       {/* ── HERO SECTION ── */}
       <section className="bg-gradient-to-b from-blue-50/80 via-white to-slate-50 dark:from-slate-900 dark:via-slate-900 dark:to-slate-950 text-slate-900 dark:text-white py-16 sm:py-20 px-4 sm:px-6 lg:px-8 border-b border-slate-200 dark:border-slate-800 transition-colors">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
+
           <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
             <span className="badge-formal inline-flex items-center gap-2">
               <Heart size={14} className="text-blue-600 dark:text-blue-400 fill-blue-600 dark:fill-blue-400" />

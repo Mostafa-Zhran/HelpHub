@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 import { Clock, Heart, BookOpen, Timer, TrendingUp, Users, HeartHandshake, Mail, RefreshCw } from 'lucide-react'
 
-const API = 'http://localhost:5000/api'
+const API = 'https://helphub-production-3b59.up.railway.app/'
 
 function StatCard({ icon: Icon, value, label, loading, color = 'blue' }) {
   const colorMap = {
-    blue:    'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60 border-blue-200 dark:border-blue-800',
+    blue: 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60 border-blue-200 dark:border-blue-800',
     emerald: 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 border-emerald-200 dark:border-emerald-800',
-    amber:   'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/60 border-amber-200 dark:border-amber-800',
-    rose:    'text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/60 border-rose-200 dark:border-rose-800',
+    amber: 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/60 border-amber-200 dark:border-amber-800',
+    rose: 'text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/60 border-rose-200 dark:border-rose-800',
   }
   return (
     <div className="card-formal p-6 text-center space-y-3">
@@ -44,9 +44,9 @@ function ProgressBar({ label, pct, loading }) {
 }
 
 export default function Statistics() {
-  const [stats, setStats]     = useState(null)
+  const [stats, setStats] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [error, setError]     = useState(null)
+  const [error, setError] = useState(null)
 
   const load = () => {
     setLoading(true)
@@ -66,21 +66,21 @@ export default function Statistics() {
   // ── Resolved display values ────────────────────────────────────────────
   const S = stats || {}
 
-  const volunteerHours   = S.volunteerHours    ?? '—'
-  const peopleHelped     = S.peopleHelped       ?? '—'
-  const booksReused      = S.booksReused        ?? '—'
-  const avgResponse      = S.avgResponseMinutes != null
+  const volunteerHours = S.volunteerHours ?? '—'
+  const peopleHelped = S.peopleHelped ?? '—'
+  const booksReused = S.booksReused ?? '—'
+  const avgResponse = S.avgResponseMinutes != null
     ? `${S.avgResponseMinutes} min`
     : '—'
 
-  const totalVolunteers      = S.volunteers        ?? '—'
-  const totalHelpRequests    = S.helpRequests       ?? '—'
-  const totalCompleted       = S.completedRequests  ?? '—'
-  const totalMessages        = S.messages           ?? '—'
+  const totalVolunteers = S.volunteers ?? '—'
+  const totalHelpRequests = S.helpRequests ?? '—'
+  const totalCompleted = S.completedRequests ?? '—'
+  const totalMessages = S.messages ?? '—'
 
-  const participationPct     = S.volunteerParticipationPct  ?? 0
-  const completedPct         = S.requestsCompletedPct       ?? 0
-  const satisfactionPct      = S.communitySatisfactionPct   ?? 92
+  const participationPct = S.volunteerParticipationPct ?? 0
+  const completedPct = S.requestsCompletedPct ?? 0
+  const satisfactionPct = S.communitySatisfactionPct ?? 92
 
   return (
     <div className="animate-fade-in space-y-16 pb-20">
@@ -116,10 +116,10 @@ export default function Statistics() {
       <section className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-3">
         <h2 className="font-bold text-lg text-slate-700 dark:text-slate-300">Core Metrics</h2>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-          <StatCard icon={Clock}   value={volunteerHours} label="Volunteer Hours"  loading={loading} color="blue" />
-          <StatCard icon={Heart}   value={peopleHelped}   label="People Helped"   loading={loading} color="rose" />
-          <StatCard icon={BookOpen}value={booksReused}    label="Books Reused"    loading={loading} color="emerald" />
-          <StatCard icon={Timer}   value={avgResponse}    label="Average Response" loading={loading} color="amber" />
+          <StatCard icon={Clock} value={volunteerHours} label="Volunteer Hours" loading={loading} color="blue" />
+          <StatCard icon={Heart} value={peopleHelped} label="People Helped" loading={loading} color="rose" />
+          <StatCard icon={BookOpen} value={booksReused} label="Books Reused" loading={loading} color="emerald" />
+          <StatCard icon={Timer} value={avgResponse} label="Average Response" loading={loading} color="amber" />
         </div>
       </section>
 
@@ -127,10 +127,10 @@ export default function Statistics() {
       <section className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-3">
         <h2 className="font-bold text-lg text-slate-700 dark:text-slate-300">Database Totals</h2>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-          <StatCard icon={Users}          value={totalVolunteers}   label="Total Volunteers"    loading={loading} color="blue" />
-          <StatCard icon={HeartHandshake} value={totalHelpRequests} label="Help Requests"       loading={loading} color="rose" />
-          <StatCard icon={TrendingUp}     value={totalCompleted}    label="Completed Requests"  loading={loading} color="emerald" />
-          <StatCard icon={Mail}           value={totalMessages}     label="Messages Received"   loading={loading} color="amber" />
+          <StatCard icon={Users} value={totalVolunteers} label="Total Volunteers" loading={loading} color="blue" />
+          <StatCard icon={HeartHandshake} value={totalHelpRequests} label="Help Requests" loading={loading} color="rose" />
+          <StatCard icon={TrendingUp} value={totalCompleted} label="Completed Requests" loading={loading} color="emerald" />
+          <StatCard icon={Mail} value={totalMessages} label="Messages Received" loading={loading} color="amber" />
         </div>
       </section>
 

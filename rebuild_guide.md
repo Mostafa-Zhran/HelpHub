@@ -1179,7 +1179,7 @@ export default function Statistics() {
   const [stats, setStats] = useState({ volunteers: 0, helpRequests: 0, completedRequests: 0, messages: 0 });
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/public/stats')
+    fetch('https://helphub-production-3b59.up.railway.app//public/stats')
       .then(res => res.json())
       .then(res => {
         if (res.success) setStats(res.data);
@@ -1274,7 +1274,7 @@ export default function Contact() {
     setIsLoading(true);
     setStatusMsg('Sending message...');
     try {
-      const res = await fetch('http://localhost:5000/api/public/contact', {
+      const res = await fetch('https://helphub-production-3b59.up.railway.app//public/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -1366,7 +1366,7 @@ export default function BecomeVolunteer() {
     setIsLoading(true);
     setStatusMsg('Submitting application...');
     try {
-      const res = await fetch('http://localhost:5000/api/public/volunteers', {
+      const res = await fetch('https://helphub-production-3b59.up.railway.app//public/volunteers', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -1461,7 +1461,7 @@ export default function RequestHelp() {
     setIsLoading(true);
     setStatusMsg('Submitting request...');
     try {
-      const res = await fetch('http://localhost:5000/api/help-requests', {
+      const res = await fetch('https://helphub-production-3b59.up.railway.app//help-requests', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -1554,7 +1554,7 @@ export default function Login() {
     setIsLoading(true);
     setMessage('Signing in...');
     try {
-      const res = await fetch('http://localhost:5000/api/admin/login', {
+      const res = await fetch('https://helphub-production-3b59.up.railway.app//admin/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
@@ -1632,7 +1632,7 @@ export default function Dashboard() {
 
   const fetchApi = useCallback(async (path, options = {}) => {
     try {
-      const res = await fetch(`http://localhost:5000/api${path}`, {
+      const res = await fetch(`https://helphub-production-3b59.up.railway.app/${path}`, {
         ...options,
         headers: {
           'Authorization': `Bearer ${token}`,

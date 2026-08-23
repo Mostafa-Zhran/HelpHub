@@ -1,20 +1,20 @@
 import { useState } from 'react'
 import { Shield, CheckCircle2 } from 'lucide-react'
 
-const API = 'http://localhost:5000/api'
+const API = 'https://helphub-production-3b59.up.railway.app/'
 
 const INIT = {
-  full_name:    '',
-  email:        '',
-  password:     '',
-  phone:        '',
+  full_name: '',
+  email: '',
+  password: '',
+  phone: '',
   service_type: '',
   availability: '',
-  motivation:   '',
+  motivation: '',
 }
 
 export default function BecomeVolunteer() {
-  const [form, setForm]     = useState(INIT)
+  const [form, setForm] = useState(INIT)
   const [status, setStatus] = useState('')
   const [errMsg, setErrMsg] = useState('')
 

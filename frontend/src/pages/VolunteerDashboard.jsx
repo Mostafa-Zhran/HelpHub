@@ -5,7 +5,7 @@ import {
   ChevronRight, Search, User, Clock, AlertTriangle, Star
 } from 'lucide-react'
 
-const API = 'http://localhost:5000/api'
+const API = 'https://helphub-production-3b59.up.railway.app/'
 
 function useVolunteerAuth() {
   const navigate = useNavigate()
@@ -18,15 +18,15 @@ function useVolunteerAuth() {
 
 const URGENCY_CONFIG = {
   critical: { label: 'Critical', cls: 'bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border-rose-300 dark:border-rose-800' },
-  urgent:   { label: 'Urgent',   cls: 'bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border-amber-300 dark:border-amber-800' },
-  normal:   { label: 'Normal',   cls: 'bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border-blue-300 dark:border-blue-800' },
-  low:      { label: 'Low',      cls: 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-300 dark:border-slate-700' },
+  urgent: { label: 'Urgent', cls: 'bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border-amber-300 dark:border-amber-800' },
+  normal: { label: 'Normal', cls: 'bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border-blue-300 dark:border-blue-800' },
+  low: { label: 'Low', cls: 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-300 dark:border-slate-700' },
 }
 
 const STATUS_CONFIG = {
-  pending:     { label: 'Pending',     cls: 'bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300' },
+  pending: { label: 'Pending', cls: 'bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300' },
   'in-progress': { label: 'In Progress', cls: 'bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300' },
-  completed:   { label: 'Completed',   cls: 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300' },
+  completed: { label: 'Completed', cls: 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300' },
 }
 
 function UrgencyBadge({ value }) {
@@ -48,14 +48,14 @@ function StatusBadge({ value }) {
 }
 
 export default function VolunteerDashboard() {
-  const vol    = useVolunteerAuth()
+  const vol = useVolunteerAuth()
   const navigate = useNavigate()
 
-  const [tab, setTab]           = useState('available')  // 'available' | 'mine'
+  const [tab, setTab] = useState('available')  // 'available' | 'mine'
   const [requests, setRequests] = useState([])
-  const [mine, setMine]         = useState([])
-  const [loading, setLoading]   = useState(true)
-  const [search, setSearch]     = useState('')
+  const [mine, setMine] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [search, setSearch] = useState('')
   const [selected, setSelected] = useState(null)
   const [actionMsg, setActionMsg] = useState({ id: null, text: '', ok: false })
 
@@ -66,10 +66,10 @@ export default function VolunteerDashboard() {
     setLoading(true)
     try {
       const [rRes, mRes] = await Promise.all([
-        fetch(`${API}/volunteer/requests`,    { headers: authHeaders }).then(r => r.json()),
+        fetch(`${API}/volunteer/requests`, { headers: authHeaders }).then(r => r.json()),
         fetch(`${API}/volunteer/my-requests`, { headers: authHeaders }).then(r => r.json()),
       ])
-      setRequests(rRes.data  || [])
+      setRequests(rRes.data || [])
       setMine(mRes.data || [])
     } catch { }
     finally { setLoading(false) }
@@ -85,7 +85,7 @@ export default function VolunteerDashboard() {
   const doAction = async (id, action) => {
     setActionMsg({ id, text: '', ok: false })
     try {
-      const res  = await fetch(`${API}/volunteer/requests/${id}/${action}`, { method: 'PATCH', headers: authHeaders })
+      const res = await fetch(`${API}/volunteer/requests/${id}/${action}`, { method: 'PATCH', headers: authHeaders })
       const data = await res.json()
       if (!res.ok) throw new Error(data.message)
       setActionMsg({ id, text: data.message || 'Done!', ok: true })
@@ -119,16 +119,15 @@ export default function VolunteerDashboard() {
         <nav className="flex-grow p-4 space-y-1">
           {[
             { key: 'available', label: 'Available Requests', icon: HeartHandshake, count: requests.length },
-            { key: 'mine',      label: 'My Requests',        icon: CheckCircle,    count: mine.length },
+            { key: 'mine', label: 'My Requests', icon: CheckCircle, count: mine.length },
           ].map(({ key, label, icon: Icon, count }) => (
             <button
               key={key}
               onClick={() => { setTab(key); setSearch('') }}
-              className={`w-full flex items-center justify-between gap-3 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${
-                tab === key
+              className={`w-full flex items-center justify-between gap-3 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${tab === key
                   ? 'bg-blue-600 text-white shadow-sm'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
-              }`}
+                }`}
             >
               <span className="flex items-center gap-2"><Icon size={15} />{label}</span>
               <span className={`px-2 py-0.5 rounded-full text-[10px] font-extrabold ${tab === key ? 'bg-white/20' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400'}`}>
@@ -150,11 +149,10 @@ export default function VolunteerDashboard() {
                 <p className="text-[10px] text-slate-400">{vol?.service}</p>
               </div>
             </div>
-            <span className={`inline-block text-[10px] font-extrabold px-2 py-0.5 rounded-md ${
-              vol?.status === 'approved'
+            <span className={`inline-block text-[10px] font-extrabold px-2 py-0.5 rounded-md ${vol?.status === 'approved'
                 ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300'
                 : 'bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300'
-            }`}>
+              }`}>
               {vol?.status ?? 'pending'}
             </span>
           </div>

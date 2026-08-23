@@ -6,7 +6,7 @@ import {
   RefreshCw, ChevronRight, Search, Shield, UserPlus, Trash2, KeyRound
 } from 'lucide-react'
 
-const API = 'http://localhost:5000/api'
+const API = 'https://helphub-production-3b59.up.railway.app/'
 
 function useAdminAuth() {
   const navigate = useNavigate()
@@ -19,46 +19,45 @@ function useAdminAuth() {
 
 function StatusBadge({ value }) {
   return (
-    <span className={`inline-flex px-2.5 py-0.5 rounded-md text-xs font-bold capitalize ${
-      value === 'approved'                           ? 'status-approved' :
-      value === 'rejected'                           ? 'status-rejected' :
-      value === 'completed'                          ? 'status-completed' :
-      value === 'urgent' || value === 'critical'     ? 'status-unread' :
-      value === 'unread'                             ? 'status-unread' :
-      value === 'read'                               ? 'status-completed' :
-      'status-pending'
-    }`}>
+    <span className={`inline-flex px-2.5 py-0.5 rounded-md text-xs font-bold capitalize ${value === 'approved' ? 'status-approved' :
+        value === 'rejected' ? 'status-rejected' :
+          value === 'completed' ? 'status-completed' :
+            value === 'urgent' || value === 'critical' ? 'status-unread' :
+              value === 'unread' ? 'status-unread' :
+                value === 'read' ? 'status-completed' :
+                  'status-pending'
+      }`}>
       {value}
     </span>
   )
 }
 
 const NAV = [
-  { key: 'overview',    label: 'Overview',      icon: LayoutDashboard },
-  { key: 'volunteers',  label: 'Volunteers',     icon: Users },
-  { key: 'helprequests',label: 'Help Requests',  icon: HeartHandshake },
-  { key: 'messages',    label: 'Messages',       icon: Mail },
-  { key: 'admins',      label: 'Admins',         icon: Shield },
+  { key: 'overview', label: 'Overview', icon: LayoutDashboard },
+  { key: 'volunteers', label: 'Volunteers', icon: Users },
+  { key: 'helprequests', label: 'Help Requests', icon: HeartHandshake },
+  { key: 'messages', label: 'Messages', icon: Mail },
+  { key: 'admins', label: 'Admins', icon: Shield },
 ]
 
 export default function Dashboard() {
-  const admin    = useAdminAuth()
+  const admin = useAdminAuth()
   const navigate = useNavigate()
-  const [tab, setTab]   = useState('overview')
+  const [tab, setTab] = useState('overview')
   const [data, setData] = useState({ volunteers: [], helpRequests: [], messages: [], stats: {} })
-  const [loading, setLoading]   = useState(true)
-  const [search, setSearch]     = useState('')
+  const [loading, setLoading] = useState(true)
+  const [search, setSearch] = useState('')
   const [selected, setSelected] = useState(null)
   // state for set-password modal: { id, name } | null
   const [setVolPwd, setSetVolPwd] = useState(null)
-  const [newPwd, setNewPwd]       = useState('')
-  const [pwdMsg, setPwdMsg]       = useState({ text: '', ok: false })
+  const [newPwd, setNewPwd] = useState('')
+  const [pwdMsg, setPwdMsg] = useState({ text: '', ok: false })
   const [pwdLoading, setPwdLoading] = useState(false)
 
   // admins sub-state
   const [adminList, setAdminList] = useState([])
-  const [newAdmin, setNewAdmin]   = useState({ username: '', email: '', password: '', confirmPassword: '' })
-  const [adminMsg, setAdminMsg]   = useState({ text: '', ok: false })
+  const [newAdmin, setNewAdmin] = useState({ username: '', email: '', password: '', confirmPassword: '' })
+  const [adminMsg, setAdminMsg] = useState({ text: '', ok: false })
   const [adminLoading, setAdminLoading] = useState(false)
 
   const authHeaders = { 'Content-Type': 'application/json', Authorization: `Bearer ${admin?.token ?? ''}` }
@@ -68,16 +67,16 @@ export default function Dashboard() {
     setLoading(true)
     try {
       const [vs, hs, ms, ss] = await Promise.all([
-        fetch(`${API}/admin/volunteers`,    { headers: authHeaders }).then(r => r.json()),
+        fetch(`${API}/admin/volunteers`, { headers: authHeaders }).then(r => r.json()),
         fetch(`${API}/admin/help-requests`, { headers: authHeaders }).then(r => r.json()),
-        fetch(`${API}/admin/messages`,      { headers: authHeaders }).then(r => r.json()),
-        fetch(`${API}/admin/stats`,         { headers: authHeaders }).then(r => r.json()),
+        fetch(`${API}/admin/messages`, { headers: authHeaders }).then(r => r.json()),
+        fetch(`${API}/admin/stats`, { headers: authHeaders }).then(r => r.json()),
       ])
       setData({
-        volunteers:   vs.data  ?? [],
-        helpRequests: hs.data  ?? [],
-        messages:     ms.data  ?? [],
-        stats:        ss.data  ?? {},
+        volunteers: vs.data ?? [],
+        helpRequests: hs.data ?? [],
+        messages: ms.data ?? [],
+        stats: ss.data ?? {},
       })
     } catch (err) {
       console.error(err)
@@ -88,7 +87,7 @@ export default function Dashboard() {
 
   const fetchAdmins = useCallback(async () => {
     if (!admin) return
-    const res  = await fetch(`${API}/admin/admins`, { headers: authHeaders }).then(r => r.json())
+    const res = await fetch(`${API}/admin/admins`, { headers: authHeaders }).then(r => r.json())
     setAdminList(res.data ?? [])
   }, [admin])
 
@@ -119,7 +118,7 @@ export default function Dashboard() {
     }
     setAdminLoading(true)
     try {
-      const res  = await fetch(`${API}/admin/admins`, {
+      const res = await fetch(`${API}/admin/admins`, {
         method: 'POST',
         headers: authHeaders,
         body: JSON.stringify({ username: newAdmin.username, email: newAdmin.email, password: newAdmin.password }),
@@ -145,10 +144,10 @@ export default function Dashboard() {
   // ── OVERVIEW ────────────────────────────────────────────────────────────
   const Overview = () => {
     const cards = [
-      { label: 'Total Volunteers',   value: data.stats.volunteers    ?? data.volunteers.length,   icon: Users },
-      { label: 'Help Requests',      value: data.stats.helpRequests  ?? data.helpRequests.length, icon: HeartHandshake },
-      { label: 'Messages',           value: data.stats.messages      ?? data.messages.length,     icon: Mail },
-      { label: 'Pending Requests',   value: data.helpRequests.filter(r => r.status === 'pending').length, icon: ChevronRight },
+      { label: 'Total Volunteers', value: data.stats.volunteers ?? data.volunteers.length, icon: Users },
+      { label: 'Help Requests', value: data.stats.helpRequests ?? data.helpRequests.length, icon: HeartHandshake },
+      { label: 'Messages', value: data.stats.messages ?? data.messages.length, icon: Mail },
+      { label: 'Pending Requests', value: data.helpRequests.filter(r => r.status === 'pending').length, icon: ChevronRight },
     ]
     return (
       <div className="space-y-6 animate-fade-in">
@@ -480,11 +479,10 @@ export default function Dashboard() {
             <button
               key={key}
               onClick={() => { setTab(key); setSearch('') }}
-              className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${
-                tab === key
+              className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${tab === key
                   ? 'bg-blue-600 text-white shadow-sm'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800'
-              }`}
+                }`}
             >
               <Icon size={16} />
               {label}
@@ -529,12 +527,12 @@ export default function Dashboard() {
         <div className="p-8">
           {loading
             ? <div className="flex items-center gap-3 text-slate-400 py-20 justify-center"><RefreshCw size={20} className="animate-spin" /> Fetching Records…</div>
-            : tab === 'overview'     ? <Overview />
-            : tab === 'volunteers'   ? <VolunteersTab />
-            : tab === 'helprequests' ? <HelpRequestsTab />
-            : tab === 'messages'     ? <MessagesTab />
-            : tab === 'admins'       ? <AdminsTab />
-            : null
+            : tab === 'overview' ? <Overview />
+              : tab === 'volunteers' ? <VolunteersTab />
+                : tab === 'helprequests' ? <HelpRequestsTab />
+                  : tab === 'messages' ? <MessagesTab />
+                    : tab === 'admins' ? <AdminsTab />
+                      : null
           }
         </div>
       </div>
@@ -560,7 +558,7 @@ export default function Dashboard() {
               if (newPwd.length < 6) return setPwdMsg({ text: 'Password must be at least 6 characters.', ok: false })
               setPwdLoading(true)
               try {
-                const res  = await fetch(`${API}/admin/volunteers/${setVolPwd.id}/set-password`, {
+                const res = await fetch(`${API}/admin/volunteers/${setVolPwd.id}/set-password`, {
                   method: 'PATCH', headers: authHeaders, body: JSON.stringify({ password: newPwd })
                 })
                 const data = await res.json()

@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { Mail, Phone, MapPin, Send, CheckCircle2 } from 'lucide-react'
 
-const API = 'http://localhost:5000/api'
+const API = 'https://helphub-production-3b59.up.railway.app/'
 
 export default function Contact() {
-  const [form, setForm]     = useState({ name: '', email: '', subject: '', message: '' })
+  const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' })
   const [status, setStatus] = useState('')
   const [errMsg, setErrMsg] = useState('')
 
