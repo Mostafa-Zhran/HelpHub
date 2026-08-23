@@ -21,7 +21,7 @@ router.post('/login', async (req, res) => {
         .from('volunteers')
         .select('*')
         .eq('email', email.toLowerCase().trim())
-        .single();
+        .maybeSingle();
 
       if (error || !volunteer) {
         return res.status(401).json({ success: false, message: 'No volunteer account found with that email.' });
