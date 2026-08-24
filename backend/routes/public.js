@@ -73,13 +73,26 @@ router.post('/help-request', async (req, res) => {
     };
 
     if (process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
-      const { data, error } = await supabase
+      let { data, error } = await supabase
         .from('help_requests')
         .insert([requestData])
         .select()
         .single();
+
+      // Automatic fallback if database has an older status constraint excluding 'unpaid'
+      if (error && error.message && error.message.includes('check constraint')) {
+        const fallbackData = { ...requestData, status: 'pending' };
+        const resFallback = await supabase
+          .from('help_requests')
+          .insert([fallbackData])
+          .select()
+          .single();
+        data = resFallback.data;
+        error = resFallback.error;
+      }
+
       if (error) throw error;
-      return res.status(201).json({ success: true, message: 'Help request initialized. Proceed to payment.', data });
+      return res.status(201).json({ success: true, message: 'Help request submitted.', data });
     }
 
     const mockRecord = { id: Date.now().toString(), ...requestData };
