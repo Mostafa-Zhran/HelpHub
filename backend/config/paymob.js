@@ -85,7 +85,7 @@ async function generatePaymentKey(authToken, { orderId, amountCents, billingData
         first_name: firstName,
         street: "NA",
         building: "NA",
-        phone_number: billingData.phone || "",
+        phone_number: billingData.phone || "NA",
         shipping_method: "NA",
         postal_code: "NA",
         city: "Cairo",
