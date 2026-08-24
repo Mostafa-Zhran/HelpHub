@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import {
   Users, HeartHandshake, Mail, MessageSquare,
   LogOut, LayoutDashboard, CheckCircle, XCircle, Eye,
-  RefreshCw, ChevronRight, Search, Shield, UserPlus, Trash2, KeyRound
+  RefreshCw, ChevronRight, Search, Shield, UserPlus, Trash2, KeyRound, CreditCard
 } from 'lucide-react'
 
 import API from '../config'
@@ -37,6 +37,7 @@ const NAV = [
   { key: 'volunteers', label: 'Volunteers', icon: Users },
   { key: 'helprequests', label: 'Help Requests', icon: HeartHandshake },
   { key: 'messages', label: 'Messages', icon: Mail },
+  { key: 'payments', label: 'Payments', icon: CreditCard },
   { key: 'admins', label: 'Admins', icon: Shield },
 ]
 
@@ -44,7 +45,7 @@ export default function Dashboard() {
   const admin = useAdminAuth()
   const navigate = useNavigate()
   const [tab, setTab] = useState('overview')
-  const [data, setData] = useState({ volunteers: [], helpRequests: [], messages: [], stats: {} })
+  const [data, setData] = useState({ volunteers: [], helpRequests: [], messages: [], payments: [], stats: {} })
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [selected, setSelected] = useState(null)
@@ -66,16 +67,18 @@ export default function Dashboard() {
     if (!admin) return
     setLoading(true)
     try {
-      const [vs, hs, ms, ss] = await Promise.all([
+      const [vs, hs, ms, ss, ps] = await Promise.all([
         fetch(`${API}/admin/volunteers`, { headers: authHeaders }).then(r => r.json()),
         fetch(`${API}/admin/help-requests`, { headers: authHeaders }).then(r => r.json()),
         fetch(`${API}/admin/messages`, { headers: authHeaders }).then(r => r.json()),
         fetch(`${API}/admin/stats`, { headers: authHeaders }).then(r => r.json()),
+        fetch(`${API}/admin/payments`, { headers: authHeaders }).then(r => r.json()).catch(() => ({ data: [] })),
       ])
       setData({
         volunteers: vs.data ?? [],
         helpRequests: hs.data ?? [],
         messages: ms.data ?? [],
+        payments: ps.data ?? [],
         stats: ss.data ?? {},
       })
     } catch (err) {
@@ -414,6 +417,92 @@ export default function Dashboard() {
     </div>
   )
 
+  // ── PAYMENTS TAB ──────────────────────────────────────────────────────────
+  const PaymentsTab = () => {
+    const payments = data.payments || []
+    const filtered = payments.filter(p =>
+      (p.payer_name || '').toLowerCase().includes(search.toLowerCase()) ||
+      (p.payer_email || '').toLowerCase().includes(search.toLowerCase()) ||
+      (p.paymob_order_id || '').toLowerCase().includes(search.toLowerCase()) ||
+      (p.status || '').toLowerCase().includes(search.toLowerCase())
+    )
+
+    return (
+      <div className="space-y-6 sm:space-y-8 animate-fade-in">
+        <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
+          <div className="flex items-center gap-3">
+            <CreditCard size={22} className="text-blue-600 dark:text-blue-400 shrink-0" />
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">Paymob Payments</h2>
+          </div>
+          <span className="badge-formal">{payments.length} Transactions</span>
+        </div>
+
+        <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
+          <div className="relative w-full sm:w-72">
+            <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+            <input
+              type="text"
+              placeholder="Search payments…"
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              className="form-input pl-9 text-xs"
+            />
+          </div>
+        </div>
+
+        <div className="card-formal overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr className="bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 text-slate-500 font-bold uppercase tracking-wider">
+                  <th className="p-4">Payer</th>
+                  <th className="p-4">Method</th>
+                  <th className="p-4">Amount</th>
+                  <th className="p-4">Paymob Order ID</th>
+                  <th className="p-4">Transaction ID</th>
+                  <th className="p-4">Status</th>
+                  <th className="p-4">Date</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800 font-medium">
+                {filtered.length === 0 ? (
+                  <tr>
+                    <td colSpan={7} className="p-8 text-center text-slate-400">No payment records found.</td>
+                  </tr>
+                ) : (
+                  filtered.map(p => (
+                    <tr key={p.id} className="hover:bg-slate-50 dark:hover:bg-slate-900/50">
+                      <td className="p-4">
+                        <div className="font-bold text-slate-900 dark:text-white">{p.payer_name}</div>
+                        <div className="text-[11px] text-slate-400">{p.payer_email}</div>
+                      </td>
+                      <td className="p-4">
+                        <span className={`inline-flex px-2 py-0.5 rounded text-[11px] font-bold capitalize ${p.payment_method === 'wallet' ? 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300' : 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300'}`}>
+                          {p.payment_method === 'wallet' ? '📱 Wallet' : '💳 Card'}
+                        </span>
+                      </td>
+                      <td className="p-4 font-bold text-slate-900 dark:text-white">
+                        {((p.amount_cents || 500) / 100).toFixed(2)} {p.currency || 'EGP'}
+                      </td>
+                      <td className="p-4 font-mono text-[11px] text-slate-500">{p.paymob_order_id || '—'}</td>
+                      <td className="p-4 font-mono text-[11px] text-slate-500">{p.paymob_transaction_id || '—'}</td>
+                      <td className="p-4">
+                        <StatusBadge value={p.status || 'pending'} />
+                      </td>
+                      <td className="p-4 text-slate-400 text-[11px]">
+                        {new Date(p.created_at).toLocaleString()}
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   // ── ADMINS TAB ──────────────────────────────────────────────────────────
   const AdminsTab = () => (
     <div className="space-y-6 sm:space-y-8 animate-fade-in">
@@ -645,8 +734,9 @@ export default function Dashboard() {
               : tab === 'volunteers' ? <VolunteersTab />
                 : tab === 'helprequests' ? <HelpRequestsTab />
                   : tab === 'messages' ? <MessagesTab />
-                    : tab === 'admins' ? <AdminsTab />
-                      : null
+                    : tab === 'payments' ? <PaymentsTab />
+                      : tab === 'admins' ? <AdminsTab />
+                        : null
           }
         </div>
       </div>

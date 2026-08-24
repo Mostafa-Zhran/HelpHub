@@ -70,16 +70,23 @@ export default function Home() {
 
           {/* Hero Image Illustration */}
           <div className="lg:col-span-5 flex justify-center">
-            <div className="card-formal p-8 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white shadow-lg space-y-6 text-center w-full max-w-md">
-              <div className="w-24 h-24 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200 dark:border-blue-800 flex items-center justify-center mx-auto text-blue-600 dark:text-blue-400">
-                <Heart size={48} className="fill-blue-600 dark:fill-blue-400" />
+            <div className="card-formal overflow-hidden bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white shadow-xl space-y-4 text-center w-full max-w-md group">
+              <div className="relative h-64 w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
+                <img
+                  src="/images/helphub-hero.jpg"
+                  alt="HelpHub Hero"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
+                <div className="absolute bottom-3 left-4 text-left">
+                  <span className="text-xs font-bold text-white uppercase tracking-wider block">Official Network</span>
+                  <span className="text-sm font-extrabold text-blue-300">HelpHub Community</span>
+                </div>
               </div>
-              <div className="space-y-2">
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white">HelpHub Community</h3>
-                <p className="text-slate-500 dark:text-slate-400 text-sm">Empowering students through structured volunteering and active peer support.</p>
-              </div>
-              <div className="p-3.5 rounded-xl bg-blue-50 border border-blue-200 text-blue-800 dark:bg-blue-950/60 dark:border-blue-800/60 dark:text-blue-300 text-xs font-semibold">
-                Together We Create Real Social Impact
+              <div className="p-6 pt-2 space-y-2">
+                <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm leading-relaxed">
+                  Empowering students through structured volunteering, active peer support, and university community networks.
+                </p>
               </div>
             </div>
           </div>

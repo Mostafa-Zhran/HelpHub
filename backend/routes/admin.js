@@ -349,4 +349,21 @@ router.patch('/volunteers/:id/set-password', adminAuth, async (req, res) => {
   }
 });
 
+// ── GET PAYMENTS ─────────────────────────────────────────────────────────────
+router.get('/payments', adminAuth, async (req, res) => {
+  try {
+    if (process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      const { data, error } = await supabase
+        .from('payments')
+        .select('*')
+        .order('created_at', { ascending: false });
+      if (error) throw error;
+      return res.json({ success: true, data: data || [] });
+    }
+    return res.json({ success: true, data: [] });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 module.exports = router;

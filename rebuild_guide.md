@@ -110,6 +110,26 @@ CREATE TABLE admins (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
+-- 5. Create payments table (for Paymob integration)
+CREATE TABLE payments (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    help_request_id UUID REFERENCES help_requests(id) ON DELETE SET NULL,
+    payer_name VARCHAR(255) NOT NULL,
+    payer_email VARCHAR(255) NOT NULL,
+    payer_phone VARCHAR(50) DEFAULT '',
+    payment_method VARCHAR(50) NOT NULL DEFAULT 'card', -- 'card' or 'wallet'
+    amount_cents INTEGER NOT NULL DEFAULT 500,
+    currency VARCHAR(10) NOT NULL DEFAULT 'EGP',
+    status VARCHAR(50) NOT NULL DEFAULT 'pending' CHECK (
+        status IN ('pending', 'success', 'failed', 'refunded')
+    ),
+    paymob_order_id VARCHAR(100),
+    paymob_transaction_id VARCHAR(100),
+    payment_token TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
 -- Add automated timestamp updates function
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
@@ -123,6 +143,7 @@ $$ language 'plpgsql';
 CREATE TRIGGER update_volunteers_updated_at BEFORE UPDATE ON volunteers FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
 CREATE TRIGGER update_help_requests_updated_at BEFORE UPDATE ON help_requests FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
 CREATE TRIGGER update_contact_messages_updated_at BEFORE UPDATE ON contact_messages FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
+CREATE TRIGGER update_payments_updated_at BEFORE UPDATE ON payments FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();
 ```
 
 ---

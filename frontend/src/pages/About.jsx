@@ -48,6 +48,26 @@ export default function About() {
         </div>
       </section>
 
+      {/* Image Banner Section */}
+      <section className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="relative h-64 sm:h-80 w-full rounded-2xl overflow-hidden shadow-xl border border-slate-200 dark:border-slate-800 group">
+          <img
+            src="/images/community.jpg"
+            alt="HelpHub Community"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-950/40 to-transparent flex items-center p-8 sm:p-12">
+            <div className="max-w-lg space-y-3">
+              <span className="badge-formal bg-blue-600 text-white border-none">Community Spirit</span>
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-white">Building Stronger University Ties</h3>
+              <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
+                Students, volunteers, and community members working together through one simple platform.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* How it Works */}
       <section className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="card-formal p-8 sm:p-12 space-y-8">
