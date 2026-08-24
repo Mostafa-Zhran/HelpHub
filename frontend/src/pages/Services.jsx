@@ -1,10 +1,21 @@
 import { Link } from 'react-router-dom'
 import { Droplet, Pill, Book, Accessibility, Car, Utensils, GraduationCap, Laptop, Shirt, ArrowRight } from 'lucide-react'
 
+// Import service images for Vite production bundling across Vercel / Netlify / GitHub Pages
+import bloodImg from '../../images/blood-donation.jpg'
+import medicineImg from '../../images/medicine-delivery.jpg'
+import booksImg from '../../images/books-sharing.jpg'
+import disabilityImg from '../../images/disability-support.jpg'
+import transportationImg from '../../images/transportation.jpg'
+import foodImg from '../../images/food-support.jpg'
+import tutoringImg from '../../images/tutoring.jpg'
+import technologyImg from '../../images/technology.jpg'
+import clothingImg from '../../images/clothes-donation.jpg'
+
 const SERVICES = [
   { 
     id: 'blood', 
-    image: '/images/blood-donation.jpg', 
+    image: bloodImg, 
     icon: Droplet, 
     title: 'Blood Donation', 
     desc: 'Our blood donation service connects donors with people who need blood support. Volunteers can register their blood type and availability.', 
@@ -12,7 +23,7 @@ const SERVICES = [
   },
   { 
     id: 'medicine', 
-    image: '/images/medicine-delivery.jpg', 
+    image: medicineImg, 
     icon: Pill, 
     title: 'Medicine Delivery', 
     desc: 'Volunteers can help deliver essential medicines to people who cannot easily reach a pharmacy or hospital.', 
@@ -20,7 +31,7 @@ const SERVICES = [
   },
   { 
     id: 'books', 
-    image: '/images/books-sharing.jpg', 
+    image: booksImg, 
     icon: Book, 
     title: 'Books Sharing', 
     desc: 'Students can share books, notes and educational materials with other members of the university community.', 
@@ -28,7 +39,7 @@ const SERVICES = [
   },
   { 
     id: 'disability', 
-    image: '/images/disability-support.jpg', 
+    image: disabilityImg, 
     icon: Accessibility, 
     title: 'Disability Support', 
     desc: 'We connect volunteers with people who need assistance with transportation, university activities and daily tasks.', 
@@ -36,7 +47,7 @@ const SERVICES = [
   },
   { 
     id: 'transportation', 
-    image: '/images/transportation.jpg', 
+    image: transportationImg, 
     icon: Car, 
     title: 'Transportation Support', 
     desc: 'Help people reach hospitals, universities, important appointments, and other essential destinations when transportation is difficult.', 
@@ -44,7 +55,7 @@ const SERVICES = [
   },
   { 
     id: 'food', 
-    image: '/images/food-support.jpg', 
+    image: foodImg, 
     icon: Utensils, 
     title: 'Food Support', 
     desc: 'Connect volunteers and donors with people and families who need food or meal support.', 
@@ -52,7 +63,7 @@ const SERVICES = [
   },
   { 
     id: 'tutoring', 
-    image: '/images/tutoring.jpg', 
+    image: tutoringImg, 
     icon: GraduationCap, 
     title: 'Tutoring & Study Support', 
     desc: 'Connect students with volunteers who can provide academic support, study assistance, and help with different subjects.', 
@@ -60,7 +71,7 @@ const SERVICES = [
   },
   { 
     id: 'technology', 
-    image: '/images/technology.jpg', 
+    image: technologyImg, 
     icon: Laptop, 
     title: 'Technology Support', 
     desc: 'Help students and community members with common computer, software, device, and technology-related problems.', 
@@ -68,7 +79,7 @@ const SERVICES = [
   },
   { 
     id: 'clothing', 
-    image: '/images/clothes-donation.jpg', 
+    image: clothingImg, 
     icon: Shirt, 
     title: 'Clothes Donation', 
     desc: 'Donate useful clothes and help make them available to people and families who need them.', 

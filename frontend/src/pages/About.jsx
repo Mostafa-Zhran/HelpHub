@@ -1,4 +1,5 @@
 import { Target, Eye, Users } from 'lucide-react'
+import communityImg from '../../images/community.jpg'
 
 export default function About() {
   return (
@@ -52,7 +53,7 @@ export default function About() {
       <section className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="relative h-64 sm:h-80 w-full rounded-2xl overflow-hidden shadow-xl border border-slate-200 dark:border-slate-800 group">
           <img
-            src="/images/community.jpg"
+            src={communityImg}
             alt="HelpHub Community"
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           />

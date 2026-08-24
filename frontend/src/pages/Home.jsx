@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Heart, Users, Clock, BookOpen, Zap, Droplet, Pill, Book, Accessibility, Car, Utensils, GraduationCap, Laptop, Shirt, RefreshCw } from 'lucide-react'
 
 import API from '../config'
+import heroImg from '../../images/helphub-hero.jpg'
 
 const SERVICES = [
   { icon: Droplet, title: 'Blood Donation', desc: 'Connect blood donors with people who need urgent support.', link: '/services#blood' },
@@ -73,7 +74,7 @@ export default function Home() {
             <div className="card-formal overflow-hidden bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white shadow-xl space-y-4 text-center w-full max-w-md group">
               <div className="relative h-64 w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
                 <img
-                  src="/images/helphub-hero.jpg"
+                  src={heroImg}
                   alt="HelpHub Hero"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
