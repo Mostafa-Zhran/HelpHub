@@ -49,8 +49,9 @@ export default function RequestHelp() {
       setCreatedRequestId(requestId)
 
       // 2. Initiate Paymob Payment for the request (Card or Vodafone Cash)
+      let payRes, payData
       try {
-        const payRes = await fetch(`${API}/public/paymob/initiate`, {
+        payRes = await fetch(`${API}/public/paymob/initiate`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -62,17 +63,23 @@ export default function RequestHelp() {
             wallet_number: walletNumber.trim()
           })
         })
-        const payData = await payRes.json()
-        if (payRes.ok && payData.success) {
-          setPaymentData(payData.data)
-          setStatus('paymob')
-          return
-        }
+        payData = await payRes.json()
       } catch (payErr) {
-        console.warn('Paymob initiation failed, falling back to basic success state:', payErr)
+        setErrMsg('Could not connect to the payment gateway. Please check your connection and try again.')
+        setStatus('error')
+        return
       }
 
-      setStatus('success')
+      if (payRes.ok && payData?.success && (payData.data?.iframeUrl || payData.data?.redirectUrl)) {
+        setPaymentData(payData.data)
+        setStatus('paymob')
+        return
+      }
+
+      // Payment initiation returned an error response
+      const payErrMsg = payData?.message || 'Payment gateway error. Please try again.'
+      setErrMsg(`Payment error: ${payErrMsg}`)
+      setStatus('error')
     } catch (err) {
       setErrMsg(err.message)
       setStatus('error')
