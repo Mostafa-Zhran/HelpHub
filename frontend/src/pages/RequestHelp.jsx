@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Shield, CheckCircle2, CreditCard, Smartphone, ExternalLink, X, AlertCircle } from 'lucide-react'
 
 import API from '../config'
@@ -12,6 +13,7 @@ const INIT = {
 }
 
 export default function RequestHelp() {
+  const navigate = useNavigate()
   const [form, setForm] = useState(INIT)
   const [paymentMethod, setPaymentMethod] = useState('card') // 'card' or 'wallet'
   const [walletNumber, setWalletNumber] = useState('')
@@ -21,6 +23,22 @@ export default function RequestHelp() {
   // Paymob modal state
   const [paymentData, setPaymentData] = useState(null)
   const [createdRequestId, setCreatedRequestId] = useState(null)
+
+  // Close payment modal when user presses browser Back button
+  const cancelPaymentModal = useCallback(() => {
+    setStatus('')
+    setPaymentData(null)
+  }, [])
+
+  useEffect(() => {
+    if (status === 'paymob') {
+      // Push a fake history entry so Back button fires popstate instead of leaving the page
+      window.history.pushState({ paymobModal: true }, '')
+      const onPop = () => cancelPaymentModal()
+      window.addEventListener('popstate', onPop)
+      return () => window.removeEventListener('popstate', onPop)
+    }
+  }, [status, cancelPaymentModal])
 
   const set = field => e => setForm(f => ({ ...f, [field]: e.target.value }))
 
@@ -100,6 +118,8 @@ export default function RequestHelp() {
         })
       } catch (e) { console.warn(e) }
     }
+    // If the fake history entry is still there, remove it so we don't leave ghost entries
+    if (window.history.state?.paymobModal) window.history.back()
     setStatus('')
     setPaymentData(null)
   }
@@ -133,9 +153,20 @@ export default function RequestHelp() {
           <p className="text-slate-500 dark:text-slate-400 text-xs sm:text-sm">
             Thank you. Your request has been submitted and registered into our network. Our volunteers will connect with you soon.
           </p>
-          <button onClick={() => { setStatus(''); setForm(INIT); setPaymentData(null); setWalletNumber(''); }} className="btn-primary mx-auto">
-            Submit Another Request
-          </button>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+            <button
+              onClick={() => navigate('/')}
+              className="btn-outline mx-auto"
+            >
+              ← Back to Home
+            </button>
+            <button
+              onClick={() => { setStatus(''); setForm(INIT); setPaymentData(null); setWalletNumber(''); }}
+              className="btn-primary mx-auto"
+            >
+              Submit Another Request
+            </button>
+          </div>
         </div>
       </div>
     )
